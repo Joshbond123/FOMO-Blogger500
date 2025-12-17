@@ -1,0 +1,56 @@
+[
+  {
+    "xAccountId": "f289d28c-9014-4bbb-8b5f-e7aab06986f5",
+    "xAccountName": "Daily Viral Mix",
+    "bloggerAccountId": "fecf7d77-6942-462c-804e-ab9188ab9cc9",
+    "bloggerAccountName": "Daily Viral Mix",
+    "isActive": true,
+    "id": "98a16ea2-23d1-4b5c-b219-07f3a9257332",
+    "createdAt": "2025-12-17T11:50:02.664Z"
+  },
+  {
+    "xAccountId": "76b894b3-6870-4a8c-8be6-77f9a3f791a7",
+    "xAccountName": "WellnessSmartTips ",
+    "bloggerAccountId": "84387cda-3717-419a-9641-d5f141bb4935",
+    "bloggerAccountName": "Wellness Smart Tips",
+    "isActive": true,
+    "id": "c6cecae9-c55b-4cf3-9b81-5f36f36fbdde",
+    "createdAt": "2025-12-17T11:50:07.333Z"
+  },
+  {
+    "xAccountId": "8a1ba44b-f356-46be-a25c-3a286f78587f",
+    "xAccountName": "Strange Fact Hub",
+    "bloggerAccountId": "55b155df-6f68-4e2f-879e-595410c0dbb4",
+    "bloggerAccountName": "Strange Fact Hub ",
+    "isActive": true,
+    "id": "f3454a5e-a7cc-4da5-b7d9-0a07e8ca8a34",
+    "createdAt": "2025-12-17T11:50:12.355Z"
+  },
+  {
+    "xAccountId": "083abeba-7ded-4867-82bb-f02e9fc8a6de",
+    "xAccountName": "Smart living tricks ",
+    "bloggerAccountId": "c608002f-bb2f-4a1a-b51e-31d9f3e9dd9b",
+    "bloggerAccountName": "Smart Living Tricks ",
+    "isActive": true,
+    "id": "59a00bd9-393f-407b-80b9-2dc3ec60e098",
+    "createdAt": "2025-12-17T11:50:18.759Z"
+  },
+  {
+    "xAccountId": "57849b12-64b4-4c00-941d-593f03031363",
+    "xAccountName": "Aiwizardry hub ",
+    "bloggerAccountId": "448ff548-8ce0-4603-9871-0cf4bb3ba0b9",
+    "bloggerAccountName": "Al Wizardry Hub",
+    "isActive": true,
+    "id": "b449db84-3f8b-4aaa-a198-0048198c4230",
+    "createdAt": "2025-12-17T11:50:25.437Z"
+  },
+  {
+    "xAccountId": "dd944459-f2ad-4d97-b61c-b4c5c1fc2c07",
+    "xAccountName": "Cold case secrets ",
+    "bloggerAccountId": "fcc80c40-acbf-4c55-a8e5-d8e478efa106",
+    "bloggerAccountName": "Cold Case Secret",
+    "isActive": true,
+    "id": "4ab100ad-3654-4977-9597-d4f3cc1ac1e1",
+    "createdAt": "2025-12-17T11:50:30.700Z"
+  }
+]

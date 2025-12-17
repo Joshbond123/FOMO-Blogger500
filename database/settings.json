@@ -1,0 +1,567 @@
+{
+  "geminiApiKeys": [],
+  "cerebrasApiKeys": [
+    {
+      "id": "1cbebf5e-7ed6-4231-8779-54efae23efda",
+      "key": "csk-ejhhrnrhnhkxk2vx8eyyy2wdk2v8xypy2t685ffpyekhdm56",
+      "createdAt": "2025-12-07T00:33:46.901Z",
+      "isActive": true,
+      "lastUsed": "2025-12-17T21:00:21.189Z"
+    },
+    {
+      "id": "52a78ee6-501a-441a-a6e3-4b7e7c2fb767",
+      "key": "csk-jfrvk3yett9fjhvkx94p8pmd8re8e4ndn9pc4ke64p536fce",
+      "createdAt": "2025-12-07T00:33:52.645Z",
+      "isActive": true,
+      "lastUsed": "2025-12-17T13:00:17.524Z"
+    },
+    {
+      "id": "ac199d56-09c8-4dc1-8865-8c4b0e675d46",
+      "key": "csk-3n4yh5vt2x2c39fjt24tc4nkt38ypk8d4wfr639m26tyvcct",
+      "createdAt": "2025-12-07T00:33:57.035Z",
+      "isActive": true,
+      "lastUsed": "2025-12-17T21:20:17.684Z"
+    },
+    {
+      "id": "b68be842-283b-4c83-b832-d9e593218dd3",
+      "key": "csk-mmycwekhehx2ermcv83re8x29jp23yd8vkwmyxp2dxe5r36w",
+      "createdAt": "2025-12-07T00:34:01.357Z",
+      "isActive": true,
+      "lastUsed": "2025-12-17T20:00:17.047Z"
+    },
+    {
+      "id": "6a15c2a8-e5f6-46d8-82b9-71c30dcf6d31",
+      "key": "csk-rxhxrdvcjw4kthcvcdr4pdv54k3jky9neh84wcp2pdnkvd6e",
+      "createdAt": "2025-12-07T00:34:05.032Z",
+      "isActive": true,
+      "lastUsed": "2025-12-17T21:40:16.895Z"
+    },
+    {
+      "id": "668ba3bd-807e-4e3c-a634-a42c7c0a886c",
+      "key": "csk-3n4yh5vt2x2c39fjt24tc4nkt38ypk8d4wfr639m26tyvcct",
+      "createdAt": "2025-12-07T00:34:33.690Z",
+      "isActive": true,
+      "lastUsed": "2025-12-17T20:40:17.177Z"
+    },
+    {
+      "id": "7823b2bf-d18f-4060-ab4c-cef276270fea",
+      "key": "csk-dehtjvd8h5chrm5xeet4hc5hxj3d68h36cvkmnvvtx3vmp5t",
+      "createdAt": "2025-12-07T00:35:10.597Z",
+      "isActive": true,
+      "lastUsed": "2025-12-17T12:40:15.695Z"
+    }
+  ],
+  "huggingfaceApiKeys": [
+    {
+      "id": "30cae0a2-d856-42d7-aa2a-38d8938a9eed",
+      "key": "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",
+      "createdAt": "2025-12-05T22:48:56.485Z",
+      "isActive": true,
+      "lastUsed": "2025-12-06T10:38:58.454Z"
+    }
+  ],
+  "imgbbApiKeys": [],
+  "freeImageHostApiKeys": [
+    {
+      "id": "7789673b-bbc0-44d7-b2ec-b73815079fee",
+      "key": "6d207e02198a847aa98d0a2a901485a5",
+      "createdAt": "2025-12-17T06:33:41.823Z",
+      "isActive": true,
+      "lastUsed": "2025-12-17T21:40:28.130Z"
+    }
+  ],
+  "serperApiKeys": [
+    {
+      "id": "8aacdaaf-44f4-46e0-85b9-7d4f7a5fa16b",
+      "key": "a542801e6e57e08a9328362ebeba0eb5639c315b",
+      "createdAt": "2025-12-11T21:00:50.923Z",
+      "isActive": true
+    }
+  ],
+  "blogger": {
+    "isConnected": false
+  },
+  "bloggerAccounts": [
+    {
+      "name": "Wellness Smart Tips",
+      "blogId": "6671383758215908821",
+      "nicheId": "health-hacks",
+      "clientId": "158217424816-okr72fd6rqtmdo0flc3an9nstcdvmgrb.apps.googleusercontent.com",
+      "clientSecret": "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",
+      "refreshToken": "1//04E6F_PLYdqzeCgYIARAAGAQSNwF-L9Ir2KuOwjM87v94LW5HKQEWI2zQocn2k4X4hOp4IRN5GIPXFLyPf-y4PbqMZG0E0VZivfg",
+      "id": "84387cda-3717-419a-9641-d5f141bb4935",
+      "createdAt": "2025-12-17T00:18:15.621Z",
+      "isConnected": true,
+      "accessToken": "ya29.a0Aa7pCA8x9AZBrV0ZGrJHe8cI0oyO3-CmNbpgk5FJptc7yzstrcVREZvYDQdRIJCFd8Y1gFaZLZabvgBNdMm0CKr9UTpQGLu2R0tqAwbmHWQSJZ651nSmZztg1AW5VmxpaqjcohFHLgu4xf50YOKe76f00vTW8lkP_3ENiRcy8Xmglsp1REg0a2Q9Lyr6k54_Bo-e6h4JaCgYKAZMSARASFQHGX2MiVX6LsYVgIG76hTspDxrCRA0207",
+      "tokenExpiry": "2025-12-17T21:00:26.616Z",
+      "blogName": "Wellness Smart Tips",
+      "blogUrl": "http://wellnesssmarttips.blogspot.com/",
+      "bannerAdsCode": "<script type=\"text/javascript\">\n  atOptions = {\n  \t'key' : '9f5710286d19614eb3c7170b7b21aa8b',\n  \t'format' : 'iframe',\n  \t'height' : 250,\n  \t'width' : 300,\n  \t'params' : {}\n  };\n</script>\n<script\n  type=\"text/javascript\"\n  src=\"https://prototypesorting.com/9f5710286d19614eb3c7170b7b21aa8b/invoke.js\"\n></script>",
+      "popunderAdsCode": "",
+      "adverticaBannerAdsCode": "<ins style=\"width: 300px;height:250px\" data-width=\"300\" data-height=\"250\" class=\"f0a40b99b3f\" data-domain=\"//data527.click\" data-affquery=\"/b15e52307a0a2b029566/0a40b99b3f/?placementName=default\"><script src=\"//data527.click/js/responsive.js\" async></script></ins>"
+    },
+    {
+      "name": "Daily Viral Mix",
+      "blogId": "848602372038839679",
+      "nicheId": "viral-entertainment",
+      "clientId": "158217424816-okr72fd6rqtmdo0flc3an9nstcdvmgrb.apps.googleusercontent.com",
+      "clientSecret": "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",
+      "refreshToken": "1//04E6F_PLYdqzeCgYIARAAGAQSNwF-L9Ir2KuOwjM87v94LW5HKQEWI2zQocn2k4X4hOp4IRN5GIPXFLyPf-y4PbqMZG0E0VZivfg",
+      "id": "fecf7d77-6942-462c-804e-ab9188ab9cc9",
+      "createdAt": "2025-12-17T01:08:54.658Z",
+      "isConnected": true,
+      "accessToken": "ya29.a0Aa7pCA-p867P4uTzsENVkFAY_PWl8auFIcWrBrhU4nE5-BMYHUoNKj4TRRvD1-PFsh6RgpSCxh2pF6qM5OHjvCC_R8aHqnSqY3k-DJhTCNFW9c3sVxKWR4iaRAPljj8xanfp2vpbSgZdFFYdgNWLG8vGhYytGVPollfWqKr2GCERYg_3wv4GTeux3SkMcb5DivN-D1-GaCgYKAQ4SARASFQHGX2MiFj77eGttU6tVVi-Otcizlg0207",
+      "tokenExpiry": "2025-12-17T13:20:26.512Z",
+      "blogName": "Daily Viral Mix",
+      "blogUrl": "http://dailyviralmixx.blogspot.com/",
+      "bannerAdsCode": "<script type=\"text/javascript\">\n  atOptions = {\n  \t'key' : 'e7b12bd0493fe71f5b195c91d57461e7',\n  \t'format' : 'iframe',\n  \t'height' : 250,\n  \t'width' : 300,\n  \t'params' : {}\n  };\n</script>\n<script\n  type=\"text/javascript\"\n  src=\"https://prototypesorting.com/e7b12bd0493fe71f5b195c91d57461e7/invoke.js\"\n></script>",
+      "popunderAdsCode": "",
+      "adverticaBannerAdsCode": "<ins style=\"width: 300px;height:250px\" data-width=\"300\" data-height=\"250\" class=\"f0a40b99b3f\" data-domain=\"//data527.click\" data-affquery=\"/b15e52307a0a2b029566/0a40b99b3f/?placementName=default\"><script src=\"//data527.click/js/responsive.js\" async></script></ins>"
+    },
+    {
+      "name": "Strange Fact Hub ",
+      "blogId": "3506077920514869206",
+      "nicheId": "weird-facts",
+      "clientId": "158217424816-okr72fd6rqtmdo0flc3an9nstcdvmgrb.apps.googleusercontent.com",
+      "clientSecret": "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",
+      "refreshToken": "1//04E6F_PLYdqzeCgYIARAAGAQSNwF-L9Ir2KuOwjM87v94LW5HKQEWI2zQocn2k4X4hOp4IRN5GIPXFLyPf-y4PbqMZG0E0VZivfg",
+      "id": "55b155df-6f68-4e2f-879e-595410c0dbb4",
+      "createdAt": "2025-12-17T01:11:03.603Z",
+      "isConnected": true,
+      "accessToken": "ya29.a0Aa7pCA-ATuB96iukpo-V6QxUuwJmB2XN52py5csSf-bKk3bnlZNl8XMtrll5t_Z-pkAwTu1HIXnBYdNOIMTy7CQgVJ_E4Q6xQ_TQFktyIaWd7fckL8FAIRImRkcmssc7AeG7OteyqpmBI3jcrOxugb1I6vC4H-9eIA_-zVwUo0331QCZrXQqnuKHOASGrbezFFHC4DFuaCgYKAUUSARASFQHGX2MivCAHbeoiMULGkOoLl12NtA0207",
+      "tokenExpiry": "2025-12-17T21:40:34.099Z",
+      "blogName": "Strange Facts Hub",
+      "blogUrl": "http://strangefacthub.blogspot.com/",
+      "bannerAdsCode": "<script type=\"text/javascript\">\n  atOptions = {\n  \t'key' : '1334f2da185a6d0d05b8d86451c397c0',\n  \t'format' : 'iframe',\n  \t'height' : 250,\n  \t'width' : 300,\n  \t'params' : {}\n  };\n</script>\n<script\n  type=\"text/javascript\"\n  src=\"https://prototypesorting.com/1334f2da185a6d0d05b8d86451c397c0/invoke.js\"\n></script>",
+      "popunderAdsCode": "",
+      "adverticaBannerAdsCode": "<ins style=\"width: 300px;height:250px\" data-width=\"300\" data-height=\"250\" class=\"f0a40b99b3f\" data-domain=\"//data527.click\" data-affquery=\"/b15e52307a0a2b029566/0a40b99b3f/?placementName=default\"><script src=\"//data527.click/js/responsive.js\" async></script></ins>"
+    },
+    {
+      "name": "Al Wizardry Hub",
+      "blogId": "2611762886920832451",
+      "nicheId": "ai-tools",
+      "clientId": "158217424816-okr72fd6rqtmdo0flc3an9nstcdvmgrb.apps.googleusercontent.com",
+      "clientSecret": "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",
+      "refreshToken": "1//04E6F_PLYdqzeCgYIARAAGAQSNwF-L9Ir2KuOwjM87v94LW5HKQEWI2zQocn2k4X4hOp4IRN5GIPXFLyPf-y4PbqMZG0E0VZivfg",
+      "id": "448ff548-8ce0-4603-9871-0cf4bb3ba0b9",
+      "createdAt": "2025-12-17T01:12:11.529Z",
+      "isConnected": true,
+      "accessToken": "ya29.a0Aa7pCA-NIAhymZ43SeCX-SE7C6Z0d4dlv9yFhRWFQgHaL0r5oizAZ6HeSj2WICFZa8iQ-rBct1_fm08LcM5GN91KsjaKHVvgltQfadrAQFkDniFjARh1FpOiK0qAH8k9mSxqE-SvTYDfYKloxO3d3OTJ96T5TEpHY6pcnZLj8UmkcrUOj_CR6LR7FS5IFig0eW9KgFY4aCgYKAUQSARASFQHGX2MinuXofEkkIaDVivYBZGdOGA0207",
+      "tokenExpiry": "2025-12-17T22:00:41.434Z",
+      "blogName": "AI Wizardry Hub",
+      "blogUrl": "http://aiwizardryhub.blogspot.com/",
+      "bannerAdsCode": "<script type=\"text/javascript\">\n  atOptions = {\n  \t'key' : 'b4695a89e05fff2321800557fa2186f0',\n  \t'format' : 'iframe',\n  \t'height' : 250,\n  \t'width' : 300,\n  \t'params' : {}\n  };\n</script>\n<script\n  type=\"text/javascript\"\n  src=\"https://prototypesorting.com/b4695a89e05fff2321800557fa2186f0/invoke.js\"\n></script>",
+      "popunderAdsCode": "",
+      "adverticaBannerAdsCode": "<ins style=\"width: 300px;height:250px\" data-width=\"300\" data-height=\"250\" class=\"f0a40b99b3f\" data-domain=\"//data527.click\" data-affquery=\"/b15e52307a0a2b029566/0a40b99b3f/?placementName=default\"><script src=\"//data527.click/js/responsive.js\" async></script></ins>"
+    },
+    {
+      "name": "Cold Case Secret",
+      "blogId": "4064343743965272315",
+      "nicheId": "scary-mysterious",
+      "clientId": "158217424816-okr72fd6rqtmdo0flc3an9nstcdvmgrb.apps.googleusercontent.com",
+      "clientSecret": "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",
+      "refreshToken": "1//04E6F_PLYdqzeCgYIARAAGAQSNwF-L9Ir2KuOwjM87v94LW5HKQEWI2zQocn2k4X4hOp4IRN5GIPXFLyPf-y4PbqMZG0E0VZivfg",
+      "id": "fcc80c40-acbf-4c55-a8e5-d8e478efa106",
+      "createdAt": "2025-12-17T01:13:19.140Z",
+      "isConnected": true,
+      "accessToken": "ya29.a0Aa7pCA8GPY6-d-46kS7cVPA0erbygsLzPQKFC-59k3BSuYEcFtDJePuCbLv5ntSs8RmOUp2b8ElqBJxZSinjk590dfMux3MJZh47nZXIPv1EfnnMf3sdbTh0E1VmD-Rjaf1LrN0sO94cQkH-C68THBgdoNdu_d8_L3qCmeE3wX3RPNHt4uJ0AEpt4nwN5Lgnxm7rG_LBaCgYKAX8SARASFQHGX2MibaffHBzPrMeFZcH5SCp8Fg0207",
+      "tokenExpiry": "2025-12-17T22:20:23.122Z",
+      "blogName": "Cold Case Secrets",
+      "blogUrl": "http://coldcasesecrets.blogspot.com/",
+      "bannerAdsCode": "<script type=\"text/javascript\">\n  atOptions = {\n  \t'key' : 'a26da13c4b9a31438980582c514283d2',\n  \t'format' : 'iframe',\n  \t'height' : 250,\n  \t'width' : 300,\n  \t'params' : {}\n  };\n</script>\n<script\n  type=\"text/javascript\"\n  src=\"https://prototypesorting.com/a26da13c4b9a31438980582c514283d2/invoke.js\"\n></script>",
+      "popunderAdsCode": "",
+      "adverticaBannerAdsCode": "<ins style=\"width: 300px;height:250px\" data-width=\"300\" data-height=\"250\" class=\"f0a40b99b3f\" data-domain=\"//data527.click\" data-affquery=\"/b15e52307a0a2b029566/0a40b99b3f/?placementName=default\"><script src=\"//data527.click/js/responsive.js\" async></script></ins>"
+    },
+    {
+      "name": "Smart Living Tricks ",
+      "blogId": "8164050743213389721",
+      "nicheId": "life-hacks",
+      "clientId": "158217424816-okr72fd6rqtmdo0flc3an9nstcdvmgrb.apps.googleusercontent.com",
+      "clientSecret": "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",
+      "refreshToken": "1//04E6F_PLYdqzeCgYIARAAGAQSNwF-L9Ir2KuOwjM87v94LW5HKQEWI2zQocn2k4X4hOp4IRN5GIPXFLyPf-y4PbqMZG0E0VZivfg",
+      "id": "c608002f-bb2f-4a1a-b51e-31d9f3e9dd9b",
+      "createdAt": "2025-12-17T01:15:38.464Z",
+      "isConnected": true,
+      "accessToken": "ya29.a0Aa7pCA8NNot_JXvQZFhyo0l2YC6y1c7bhOkKIscMnpEe7zj3rJNciit9AKwz53zOj7b13SDlbelSRIg7fENHL4zE8_o3TIuZOciXztk_qP8ziNsWjDK-oJ6qM5hD8R_UoXFLkfTQ33IkN21zHv0-3SPnsZI76Yr-gUVYevfzrcXASkeHUHf3Uz5ryzLOVMbAZitDlZDIaCgYKAd0SARASFQHGX2MiMHEudvO9za0ENXmuoq37fg0207",
+      "tokenExpiry": "2025-12-17T22:40:28.199Z",
+      "blogName": "Smart Living Tricks",
+      "blogUrl": "http://smartlivingtricks.blogspot.com/",
+      "bannerAdsCode": "<script type=\"text/javascript\">\n  atOptions = {\n  \t'key' : '25bd5a6195de3bd7d04cef0020639f2e',\n  \t'format' : 'iframe',\n  \t'height' : 250,\n  \t'width' : 300,\n  \t'params' : {}\n  };\n</script>\n<script\n  type=\"text/javascript\"\n  src=\"https://prototypesorting.com/25bd5a6195de3bd7d04cef0020639f2e/invoke.js\"\n></script>",
+      "popunderAdsCode": "",
+      "adverticaBannerAdsCode": "<ins style=\"width: 300px;height:250px\" data-width=\"300\" data-height=\"250\" class=\"f0a40b99b3f\" data-domain=\"//data527.click\" data-affquery=\"/b15e52307a0a2b029566/0a40b99b3f/?placementName=default\"><script src=\"//data527.click/js/responsive.js\" async></script></ins>"
+    }
+  ],
+  "schedules": [
+    {
+      "id": "d0ed9525-a926-4d92-a3e3-8e963419ef33",
+      "time": "09:00",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "84387cda-3717-419a-9641-d5f141bb4935"
+    },
+    {
+      "id": "dc14a6cf-2c84-493b-80e0-69e770d4fbbe",
+      "time": "09:20",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "fecf7d77-6942-462c-804e-ab9188ab9cc9"
+    },
+    {
+      "id": "ebd4677d-75d2-4ca7-b882-00570f581c6d",
+      "time": "09:40",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "55b155df-6f68-4e2f-879e-595410c0dbb4"
+    },
+    {
+      "id": "877e864c-ea09-40bb-b7ed-796b72cd4537",
+      "time": "10:00",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "448ff548-8ce0-4603-9871-0cf4bb3ba0b9"
+    },
+    {
+      "id": "4a0c44e2-eb3a-454b-ad01-13e08b68d38e",
+      "time": "10:20",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "fcc80c40-acbf-4c55-a8e5-d8e478efa106"
+    },
+    {
+      "id": "663db6a4-664b-4431-882a-ffe7562de3f9",
+      "time": "10:40",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "c608002f-bb2f-4a1a-b51e-31d9f3e9dd9b"
+    },
+    {
+      "id": "49ab838c-136f-430f-bee6-353704b6b01c",
+      "time": "13:00",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "84387cda-3717-419a-9641-d5f141bb4935"
+    },
+    {
+      "id": "425c21c3-8648-48a8-88c1-44891556e5b0",
+      "time": "13:20",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "fecf7d77-6942-462c-804e-ab9188ab9cc9"
+    },
+    {
+      "id": "34da3d20-784a-493a-a349-c9ec8c1c0538",
+      "time": "13:40",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "55b155df-6f68-4e2f-879e-595410c0dbb4"
+    },
+    {
+      "id": "4e513a7e-8740-480c-a9d6-65230c422645",
+      "time": "14:00",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "448ff548-8ce0-4603-9871-0cf4bb3ba0b9"
+    },
+    {
+      "id": "e07c7cd9-7d85-4d0c-944b-383005510859",
+      "time": "14:20",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "fcc80c40-acbf-4c55-a8e5-d8e478efa106"
+    },
+    {
+      "id": "9980875b-f9d7-4c44-92ea-58f55093c522",
+      "time": "14:40",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "c608002f-bb2f-4a1a-b51e-31d9f3e9dd9b"
+    },
+    {
+      "id": "6ed57a28-3af8-402b-a0c5-2af9d21d4828",
+      "time": "17:00",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "84387cda-3717-419a-9641-d5f141bb4935"
+    },
+    {
+      "id": "a5dc68c3-0107-46f6-ba94-f805fa653e9a",
+      "time": "17:20",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "fecf7d77-6942-462c-804e-ab9188ab9cc9"
+    },
+    {
+      "id": "443b37b0-1acd-43b3-b5c0-132582893bf0",
+      "time": "17:40",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "55b155df-6f68-4e2f-879e-595410c0dbb4"
+    },
+    {
+      "id": "21f09910-0336-4ad7-8391-2211e62afec8",
+      "time": "18:00",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "448ff548-8ce0-4603-9871-0cf4bb3ba0b9"
+    },
+    {
+      "id": "6dcd766c-6c76-4574-ac55-384754fdb7ac",
+      "time": "18:20",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "fcc80c40-acbf-4c55-a8e5-d8e478efa106"
+    },
+    {
+      "id": "5382e93c-c7cb-4351-9f64-1eb6905f525a",
+      "time": "18:40",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "c608002f-bb2f-4a1a-b51e-31d9f3e9dd9b"
+    },
+    {
+      "id": "686cf846-dbc4-4e4b-af4c-7a38eabb2120",
+      "time": "21:00",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "84387cda-3717-419a-9641-d5f141bb4935"
+    },
+    {
+      "id": "25aa3763-e555-4100-8880-0a6520e9d092",
+      "time": "21:20",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "fecf7d77-6942-462c-804e-ab9188ab9cc9"
+    },
+    {
+      "id": "104733b6-1db5-4fd1-bc9f-4104f1c98ff3",
+      "time": "21:40",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "55b155df-6f68-4e2f-879e-595410c0dbb4"
+    },
+    {
+      "id": "5c5d0dae-1abf-448b-9718-b115b6fd2bb1",
+      "time": "22:00",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "448ff548-8ce0-4603-9871-0cf4bb3ba0b9"
+    },
+    {
+      "id": "ba9e0adf-89ca-4dac-a038-7b9c3636a971",
+      "time": "22:20",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "fcc80c40-acbf-4c55-a8e5-d8e478efa106"
+    },
+    {
+      "id": "97d6ac4e-7c8a-4355-84a9-ba3a059cdd73",
+      "time": "22:40",
+      "timezone": "Africa/Lagos",
+      "isActive": true,
+      "accountId": "c608002f-bb2f-4a1a-b51e-31d9f3e9dd9b"
+    }
+  ],
+  "currentGeminiKeyIndex": 0,
+  "currentCerebrasKeyIndex": 5,
+  "currentHuggingfaceKeyIndex": 0,
+  "currentImgbbKeyIndex": 0,
+  "currentFreeImageHostKeyIndex": 0,
+  "currentSerperKeyIndex": 0,
+  "usedTopics": [
+    "the autonomous ai agent revolution: stop prompting, start automating your entire workflow",
+    "unlock desktop superpowers: the multimodal ai tools you need to master now for unprecedented productivity",
+    "stop missing out: why seamless ai integration into your core business apps is non-negotiable",
+    "digital deceptions: the alarming rise of ai-generated unexplained phenomena and 'deepfake' hauntings",
+    "the on-device ai revolution: why your next productivity powerhouse needs a neural processing unit (npu)",
+    "autonomous ai agents: the secret weapon redefining personal and professional productivity",
+    "the ghost in the genes: how new dna tech is suddenly solving decades-old unsolved mysteries",
+    "the unsettling true story behind 'baby reindeer': why netflix's hit is more terrifying than fiction",
+    "the sneaky supermarket scams: how to beat shrinkflation & skimpflation and save big on groceries",
+    "forget everything you knew: the ancient hominin discovery rewriting our evolutionary story right now",
+    "beyond prompts: are you harnessing the proactive ai assistants that are already redefining workflow automation?",
+    "the bridgerton effect: why season 3's viral reign is dominating your feed and what happens next",
+    "amazing ai image generation technology",
+    "the ultimate brain reset: why everyone's embracing the 'dopamine detox' for peak focus & inner calm",
+    "dragon wars online: how house of the dragon season 2 is dominating your feed and why you can't afford to miss it",
+    "tiktok detectives: the unsettling rise of amateur sleuths and the cases you can't afford to miss",
+    "your voice, their crime: the terrifying rise of ai voice cloning in modern true crime",
+    "the dark unraveling of diddy's empire: why the federal raids are just the beginning of a chilling true crime saga",
+    "the bizarre science of sleep paralysis: uncovering the dark side of rem",
+    "the bizarre disappearance of the sodder children: uncovering new clues in a 75-year-old unsolved mystery",
+    "unpacking the barbie movie hype: how social media is fueling the film's viral frenzy",
+    "unlocking the power of circadian rhythm: how synchronizing your body's internal clock can revolutionize your health and wellness",
+    "the taylor swift eras tour social media takeover: how swifties are redefining fandom in the digital age",
+    "the mysterious case of the dyatlov pass incident: new evidence and theories emerge",
+    "revolutionizing workflows with ai-powered low-code automation: the future of productivity",
+    "unveiling the mysterious zone of silence: recent discoveries in mexico's mapimí silent zone",
+    "10 morning routine hacks to boost productivity and save time",
+    "the rise of personalized nutrition: how genetic testing can revolutionize your diet and wellness",
+    "15 simple swaps to reduce household expenses and increase savings",
+    "the minecraft youtuber takeover: how streamers are revolutionizing the gaming industry",
+    "the rise of ai-generated influencers: how virtual celebrities are disrupting social media",
+    "the dark side of asmr: uncovering the hidden world of trigger content and its impact on mental health",
+    "the sinister side of sleep: exploring the baffling phenomenon of sleep paralysis and its connection to dark entities",
+    "the evolution of 'doomscrolling' to 'doomwatching': how social media's shift to video is changing the way we consume traumatic content",
+    "the recent uncovering of the 'booming sand dunes' of china's badain jaran desert: scientists stunned by the sudden appearance of singing sand on june 15, 2023",
+    "the chilling connection between the 1996 disappearance of morgan nick and the recent arrest of",
+    "how google's recent acquisition of alter on february 15, 2023, will revolutionize ai-powered customer service chatbots with personalized conversational interfaces",
+    "decoding the voynich manuscript: the recent breakthrough by dr. lisa fagin davis on august 10, 2023, using ai-enhanced paleography to uncover the secrets of the world's most mysterious book",
+    "how to leverage the upcoming 2024 summer olympics to score cheap flights and accommodations using the 'olympic effect' strategy",
+    "how the recent discovery of the 'immunome' by dr. alessandro sette in february 2023 is revolutionizing our understanding of immune system function and its impact on mental health, fitness, and nutrition",
+    "unveiling the mysteries of the 'toadstone': how the recent discovery of a 400-year-old toadstone pendant on september 20, 2023, in the buckinghamshire county museum is redefining the history of 17th-century english folk magic",
+    "the emerging connection between the 2023 ipcc climate report and gut health: how rising global temperatures are disrupting the human microbiome",
+    "the mysterious case of the 'dulce base': uncovering the truth behind the alleged secret underground facility in dulce, new mexico, as revealed by whistleblower phil schneider on november 12, 1995, and recently resurfaced in a declassified fbi document on october 25, 2023",
+    "the unexpected resurgence of 90s boy bands: how bts's rm and suga's recent collaboration with backstreet boys' nick carter is sparking a new wave of nostalgia on tiktok and instagram, with over 1 million users participating in the #90sboybandchallenge since its launch on february 20, 2024",
+    "uncovering the baffling 'fast radio bursts' detected by the canadian hydrogen intensity mapping experiment (chime) on november 2, 2023, and how dr. victoria kaspi's team is racing against time to unravel the mystery of these enigmatic cosmic events",
+    "unlocking the potential of ai-driven cybersecurity: how microsoft's azure security center for iot, launched on march 1, 2023, is revolutionizing threat detection with machine learning algorithms and automation",
+    "maximizing the 2024 tax season with the newly introduced 'secure 2.0' act: 5 little-known strategies to claim the expanded $2,500 saver's credit and boost retirement savings by april 15th",
+    "uncovering the mysterious death of rebecca zahau: new developments in the 2011 coronado mansion case and the potential link to similar cases of suspicious deaths in luxury homes",
+    "the unprecedented discovery of the 'nebra sky disk 2.0': dr. harald meller's team unveils a second, even older ancient astronomical disk in the sachsen-anhalt region of germany on december 5, 2023",
+    "the impact of emma chamberlain's april 15, 2024, instagram live session on the rise of 'sustainable luxury' in the fashion industry, featuring collaborations with stella mccartney and phoebe english",
+    "the unsettling parallels between the 1980 'toothman' murders in rural ohio and the recent 'smiley face killer' theories: uncovering the chilling connection between two of america's most baffling unsolved cases",
+    "science news | the latest news from all areas of science",
+    "sciencedaily: your source for the latest research news",
+    "catherine hoggle ruled competent to stand trial in missing children ...",
+    "latest - tips, tricks and hacks for doing everything better | lifehacker",
+    "tmz.com: celebrity news | entertainment news",
+    "breaking celebrity news, entertainment news and celeb gossip",
+    "weird but true",
+    "gary brecka reveals his 6 free biohacks",
+    "ai-generated political videos are more about memes and ...",
+    "the disturbing backyard scene points to murder... ...",
+    "strange & offbeat news",
+    "trending: latest buzz in pop culture and news, photos & ...",
+    "these new “deep work” ai agents are going viral",
+    "you won't believe what happened to sharon marshall",
+    "scientists stumbled upon lifesaving cancer treatments",
+    "mass shooting at bondi beach: 12 killed, 29 injured",
+    "taylor swift gives $197m to crew!",
+    "astronomers stunned by 7-hour space explosion",
+    "17 life hacks so good people didn't want to share",
+    "you won't believe this new mystery",
+    "ohio's creepiest unsolved death revealed",
+    "mass shooting at bondi beach: what happened?",
+    "millionaire couple found brutally murdered in desert",
+    "new clues in rebecca park murder case revealed",
+    "serial killer caught 30 years later",
+    "girl shot and hidden in barrel: what happened?",
+    "killer exposed by own google searches",
+    "rob reiner's son arrested for parents' murder",
+    "new clues in jonbenét ramsey murder case revealed",
+    "killing spree: 17 lives lost in 3 weeks",
+    "new clue found in jonbenet ramsey murder case",
+    "dentists warn: avoid this teeth whitening hack",
+    "sprinting burns fat 36 hours!",
+    "coldplay's chris martin crashes wedding, guests freak out",
+    "nasa finds bizarre lemon-shaped planet",
+    "new ai tool is better than google!",
+    "unlock secret to 40% less stress",
+    "scientists traced hiv/aids to a shocking origin",
+    "ai just solved 15 impossible problems",
+    "italy's most shocking murder couple exposed",
+    "top tiktok trends to try now"
+  ],
+  "usedTopicsByNiche": {
+    "scary-mysterious": [
+      "digital deceptions: the alarming rise of ai-generated unexplained phenomena and 'deepfake' hauntings",
+      "the ghost in the genes: how new dna tech is suddenly solving decades-old unsolved mysteries",
+      "the unsettling true story behind 'baby reindeer': why netflix's hit is more terrifying than fiction",
+      "tiktok detectives: the unsettling rise of amateur sleuths and the cases you can't afford to miss",
+      "your voice, their crime: the terrifying rise of ai voice cloning in modern true crime",
+      "the dark unraveling of diddy's empire: why the federal raids are just the beginning of a chilling true crime saga",
+      "the bizarre disappearance of the sodder children: uncovering new clues in a 75-year-old unsolved mystery",
+      "the mysterious case of the dyatlov pass incident: new evidence and theories emerge",
+      "the sinister side of sleep: exploring the baffling phenomenon of sleep paralysis and its connection to dark entities",
+      "the chilling connection between the 1996 disappearance of morgan nick and the recent arrest of",
+      "uncovering the mysterious death of rebecca zahau: new developments in the 2011 coronado mansion case and the potential link to similar cases of suspicious deaths in luxury homes",
+      "the unsettling parallels between the 1980 'toothman' murders in rural ohio and the recent 'smiley face killer' theories: uncovering the chilling connection between two of america's most baffling unsolved cases",
+      "catherine hoggle ruled competent to stand trial in missing children ...",
+      "the disturbing backyard scene points to murder... ...",
+      "you won't believe what happened to sharon marshall",
+      "mass shooting at bondi beach: 12 killed, 29 injured",
+      "you won't believe this new mystery",
+      "ohio's creepiest unsolved death revealed",
+      "mass shooting at bondi beach: what happened?",
+      "millionaire couple found brutally murdered in desert",
+      "new clues in rebecca park murder case revealed",
+      "serial killer caught 30 years later",
+      "girl shot and hidden in barrel: what happened?",
+      "killer exposed by own google searches",
+      "rob reiner's son arrested for parents' murder",
+      "new clues in jonbenét ramsey murder case revealed",
+      "killing spree: 17 lives lost in 3 weeks",
+      "new clue found in jonbenet ramsey murder case",
+      "italy's most shocking murder couple exposed"
+    ],
+    "ai-tools": [
+      "the on-device ai revolution: why your next productivity powerhouse needs a neural processing unit (npu)",
+      "autonomous ai agents: the secret weapon redefining personal and professional productivity",
+      "beyond prompts: are you harnessing the proactive ai assistants that are already redefining workflow automation?",
+      "amazing ai image generation technology",
+      "revolutionizing workflows with ai-powered low-code automation: the future of productivity",
+      "how google's recent acquisition of alter on february 15, 2023, will revolutionize ai-powered customer service chatbots with personalized conversational interfaces",
+      "unlocking the potential of ai-driven cybersecurity: how microsoft's azure security center for iot, launched on march 1, 2023, is revolutionizing threat detection with machine learning algorithms and automation",
+      "ai-generated political videos are more about memes and ...",
+      "these new “deep work” ai agents are going viral",
+      "new ai tool is better than google!",
+      "ai just solved 15 impossible problems"
+    ],
+    "life-hacks": [
+      "the sneaky supermarket scams: how to beat shrinkflation & skimpflation and save big on groceries",
+      "10 morning routine hacks to boost productivity and save time",
+      "15 simple swaps to reduce household expenses and increase savings",
+      "how to leverage the upcoming 2024 summer olympics to score cheap flights and accommodations using the 'olympic effect' strategy",
+      "maximizing the 2024 tax season with the newly introduced 'secure 2.0' act: 5 little-known strategies to claim the expanded $2,500 saver's credit and boost retirement savings by april 15th",
+      "latest - tips, tricks and hacks for doing everything better | lifehacker",
+      "17 life hacks so good people didn't want to share",
+      "top tiktok trends to try now"
+    ],
+    "weird-facts": [
+      "forget everything you knew: the ancient hominin discovery rewriting our evolutionary story right now",
+      "the bizarre science of sleep paralysis: uncovering the dark side of rem",
+      "unveiling the mysterious zone of silence: recent discoveries in mexico's mapimí silent zone",
+      "the recent uncovering of the 'booming sand dunes' of china's badain jaran desert: scientists stunned by the sudden appearance of singing sand on june 15, 2023",
+      "decoding the voynich manuscript: the recent breakthrough by dr. lisa fagin davis on august 10, 2023, using ai-enhanced paleography to uncover the secrets of the world's most mysterious book",
+      "unveiling the mysteries of the 'toadstone': how the recent discovery of a 400-year-old toadstone pendant on september 20, 2023, in the buckinghamshire county museum is redefining the history of 17th-century english folk magic",
+      "the mysterious case of the 'dulce base': uncovering the truth behind the alleged secret underground facility in dulce, new mexico, as revealed by whistleblower phil schneider on november 12, 1995, and recently resurfaced in a declassified fbi document on october 25, 2023",
+      "uncovering the baffling 'fast radio bursts' detected by the canadian hydrogen intensity mapping experiment (chime) on november 2, 2023, and how dr. victoria kaspi's team is racing against time to unravel the mystery of these enigmatic cosmic events",
+      "the unprecedented discovery of the 'nebra sky disk 2.0': dr. harald meller's team unveils a second, even older ancient astronomical disk in the sachsen-anhalt region of germany on december 5, 2023",
+      "science news | the latest news from all areas of science",
+      "sciencedaily: your source for the latest research news",
+      "weird but true",
+      "strange & offbeat news",
+      "scientists stumbled upon lifesaving cancer treatments",
+      "astronomers stunned by 7-hour space explosion",
+      "nasa finds bizarre lemon-shaped planet",
+      "scientists traced hiv/aids to a shocking origin"
+    ],
+    "viral-entertainment": [
+      "the bridgerton effect: why season 3's viral reign is dominating your feed and what happens next",
+      "dragon wars online: how house of the dragon season 2 is dominating your feed and why you can't afford to miss it",
+      "unpacking the barbie movie hype: how social media is fueling the film's viral frenzy",
+      "the taylor swift eras tour social media takeover: how swifties are redefining fandom in the digital age",
+      "the minecraft youtuber takeover: how streamers are revolutionizing the gaming industry",
+      "the rise of ai-generated influencers: how virtual celebrities are disrupting social media",
+      "the dark side of asmr: uncovering the hidden world of trigger content and its impact on mental health",
+      "the evolution of 'doomscrolling' to 'doomwatching': how social media's shift to video is changing the way we consume traumatic content",
+      "the unexpected resurgence of 90s boy bands: how bts's rm and suga's recent collaboration with backstreet boys' nick carter is sparking a new wave of nostalgia on tiktok and instagram, with over 1 million users participating in the #90sboybandchallenge since its launch on february 20, 2024",
+      "the impact of emma chamberlain's april 15, 2024, instagram live session on the rise of 'sustainable luxury' in the fashion industry, featuring collaborations with stella mccartney and phoebe english",
+      "tmz.com: celebrity news | entertainment news",
+      "breaking celebrity news, entertainment news and celeb gossip",
+      "trending: latest buzz in pop culture and news, photos & ...",
+      "taylor swift gives $197m to crew!",
+      "coldplay's chris martin crashes wedding, guests freak out"
+    ],
+    "health-hacks": [
+      "the ultimate brain reset: why everyone's embracing the 'dopamine detox' for peak focus & inner calm",
+      "unlocking the power of circadian rhythm: how synchronizing your body's internal clock can revolutionize your health and wellness",
+      "the rise of personalized nutrition: how genetic testing can revolutionize your diet and wellness",
+      "how the recent discovery of the 'immunome' by dr. alessandro sette in february 2023 is revolutionizing our understanding of immune system function and its impact on mental health, fitness, and nutrition",
+      "the emerging connection between the 2023 ipcc climate report and gut health: how rising global temperatures are disrupting the human microbiome",
+      "gary brecka reveals his 6 free biohacks",
+      "dentists warn: avoid this teeth whitening hack",
+      "sprinting burns fat 36 hours!",
+      "unlock secret to 40% less stress"
+    ]
+  }
+}

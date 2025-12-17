@@ -1,0 +1,9 @@
+{
+  "phoneNumber": "2348036869577",
+  "apiKey": "6450562",
+  "isEnabled": true,
+  "notifyOnFailure": true,
+  "sendDailyReport": true,
+  "lastTestAt": "2025-12-17T22:09:05.576Z",
+  "lastTestSuccess": true
+}

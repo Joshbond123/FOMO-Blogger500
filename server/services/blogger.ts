@@ -1,0 +1,658 @@
+import { storage } from "../storage";
+import type { Post, BloggerAccount } from "@shared/schema";
+
+const BLOGGER_API_BASE = "https://www.googleapis.com/blogger/v3";
+const OAUTH_TOKEN_URL = "https://oauth2.googleapis.com/token";
+
+function injectAds(content: string, account: BloggerAccount): string {
+  const adsterraBannerCode = account.bannerAdsCode?.trim();
+  const popunderAdsCode = account.popunderAdsCode?.trim();
+  const adverticaBannerCode = account.adverticaBannerAdsCode?.trim();
+
+  if (!adsterraBannerCode && !popunderAdsCode && !adverticaBannerCode) {
+    return content;
+  }
+
+  // Responsive, centered ad wrapper with proper spacing
+  const createAdWrapper = (adCode: string, className: string) => 
+    `<div class="ad-placement ${className}" style="margin: 30px auto; padding: 15px 0; text-align: center; max-width: 100%; clear: both; display: block;">${adCode}</div>`;
+
+  // Find all H2 headings and their positions
+  const h2Regex = /<h2[^>]*>[\s\S]*?<\/h2>/gi;
+  const h2Matches = Array.from(content.matchAll(h2Regex));
+  
+  // Find all paragraphs
+  const paragraphRegex = /<p[^>]*>[\s\S]*?<\/p>/gi;
+  const paragraphMatches = Array.from(content.matchAll(paragraphRegex));
+
+  if (h2Matches.length === 0 && paragraphMatches.length === 0) {
+    let result = content;
+    if (adsterraBannerCode) {
+      result = createAdWrapper(adsterraBannerCode, 'ad-adsterra-1') + '\n' + result;
+    }
+    if (adverticaBannerCode) {
+      result = result + '\n' + createAdWrapper(adverticaBannerCode, 'ad-advertica-1');
+    }
+    if (popunderAdsCode) {
+      result = result + '\n' + popunderAdsCode;
+    }
+    return result;
+  }
+
+  let result = content;
+  let insertions: { position: number; html: string; priority: number }[] = [];
+
+  // Get H2 positions
+  const h2Positions = h2Matches.map(m => ({
+    start: m.index!,
+    end: m.index! + m[0].length,
+    text: m[0]
+  }));
+
+  // Get paragraph positions
+  const paragraphPositions = paragraphMatches.map(m => ({
+    start: m.index!,
+    end: m.index! + m[0].length,
+    text: m[0]
+  }));
+
+  // Find paragraphs before the first H2 (introduction paragraphs)
+  const firstH2Position = h2Positions.length > 0 ? h2Positions[0].start : content.length;
+  const introParagraphs = paragraphPositions.filter(p => p.end < firstH2Position);
+
+  // 1. Adsterra Ad #1: After introduction (after 1st or 2nd paragraph, before first H2)
+  if (adsterraBannerCode) {
+    if (introParagraphs.length >= 2) {
+      // Place after 2nd intro paragraph
+      insertions.push({
+        position: introParagraphs[1].end,
+        html: createAdWrapper(adsterraBannerCode, 'ad-adsterra-1'),
+        priority: 1
+      });
+    } else if (introParagraphs.length >= 1) {
+      // Place after 1st intro paragraph
+      insertions.push({
+        position: introParagraphs[0].end,
+        html: createAdWrapper(adsterraBannerCode, 'ad-adsterra-1'),
+        priority: 1
+      });
+    } else if (h2Positions.length > 0) {
+      // No intro paragraphs, place before first H2
+      insertions.push({
+        position: h2Positions[0].start,
+        html: createAdWrapper(adsterraBannerCode, 'ad-adsterra-1'),
+        priority: 1
+      });
+    }
+  }
+
+  // 2. Advertica Ad #1: After the first H2 section (after paragraphs following first H2)
+  if (adverticaBannerCode && h2Positions.length >= 1) {
+    // Find the position just before the second H2, or after paragraphs of first section
+    if (h2Positions.length >= 2) {
+      // Place just before the second H2
+      insertions.push({
+        position: h2Positions[1].start,
+        html: createAdWrapper(adverticaBannerCode, 'ad-advertica-1'),
+        priority: 2
+      });
+    } else {
+      // Only one H2, place after paragraphs that follow it
+      const paragraphsAfterH2 = paragraphPositions.filter(p => p.start > h2Positions[0].end);
+      if (paragraphsAfterH2.length >= 2) {
+        insertions.push({
+          position: paragraphsAfterH2[1].end,
+          html: createAdWrapper(adverticaBannerCode, 'ad-advertica-1'),
+          priority: 2
+        });
+      } else if (paragraphsAfterH2.length >= 1) {
+        insertions.push({
+          position: paragraphsAfterH2[0].end,
+          html: createAdWrapper(adverticaBannerCode, 'ad-advertica-1'),
+          priority: 2
+        });
+      }
+    }
+  }
+
+  // 3. Adsterra Ad #2: In the middle of the article, between two major sections
+  if (adsterraBannerCode && h2Positions.length >= 3) {
+    const middleIndex = Math.floor(h2Positions.length / 2);
+    // Place just before the middle H2
+    insertions.push({
+      position: h2Positions[middleIndex].start,
+      html: createAdWrapper(adsterraBannerCode, 'ad-adsterra-2'),
+      priority: 3
+    });
+  } else if (adsterraBannerCode && paragraphPositions.length >= 6) {
+    // Fallback: place in middle of paragraphs if not enough H2s
+    const middleIndex = Math.floor(paragraphPositions.length / 2);
+    insertions.push({
+      position: paragraphPositions[middleIndex].end,
+      html: createAdWrapper(adsterraBannerCode, 'ad-adsterra-2'),
+      priority: 3
+    });
+  }
+
+  // 4. Advertica Ad #2: Near the end, just before the conclusion (last H2)
+  if (adverticaBannerCode && h2Positions.length >= 2) {
+    // Place just before the last H2 (which is typically the conclusion)
+    const lastH2Index = h2Positions.length - 1;
+    insertions.push({
+      position: h2Positions[lastH2Index].start,
+      html: createAdWrapper(adverticaBannerCode, 'ad-advertica-2'),
+      priority: 4
+    });
+  } else if (adverticaBannerCode && paragraphPositions.length >= 4) {
+    // Fallback: place before last 2 paragraphs
+    const nearEndIndex = paragraphPositions.length - 2;
+    insertions.push({
+      position: paragraphPositions[nearEndIndex].start,
+      html: createAdWrapper(adverticaBannerCode, 'ad-advertica-2'),
+      priority: 4
+    });
+  }
+
+  // Remove duplicate positions and sort by position descending to insert from end to start
+  const uniqueInsertions = insertions.filter((item, index, self) =>
+    index === self.findIndex(t => Math.abs(t.position - item.position) < 10)
+  );
+  uniqueInsertions.sort((a, b) => b.position - a.position);
+
+  for (const insertion of uniqueInsertions) {
+    result = result.slice(0, insertion.position) + '\n' + insertion.html + '\n' + result.slice(insertion.position);
+  }
+
+  // Add popunder at the very end
+  if (popunderAdsCode) {
+    result = result + '\n' + popunderAdsCode;
+  }
+
+  return result;
+}
+
+interface TokenResponse {
+  access_token: string;
+  expires_in: number;
+  token_type: string;
+  scope?: string;
+}
+
+async function refreshAccessToken(): Promise<{ success: boolean; accessToken?: string; message: string }> {
+  try {
+    const credentials = await storage.getBloggerCredentials();
+    
+    if (!credentials.client_id || !credentials.client_secret || !credentials.refresh_token) {
+      return { 
+        success: false, 
+        message: "Missing OAuth credentials. Please configure them in Admin Settings." 
+      };
+    }
+
+    const params = new URLSearchParams({
+      client_id: credentials.client_id,
+      client_secret: credentials.client_secret,
+      refresh_token: credentials.refresh_token,
+      grant_type: "refresh_token",
+    });
+
+    const response = await fetch(OAUTH_TOKEN_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      return {
+        success: false,
+        message: error.error_description || `Token refresh failed: HTTP ${response.status}`,
+      };
+    }
+
+    const data: TokenResponse = await response.json();
+    
+    const settings = await storage.getSettings();
+    await storage.setBloggerSettings({
+      ...settings.blogger,
+      accessToken: data.access_token,
+      tokenExpiry: new Date(Date.now() + data.expires_in * 1000).toISOString(),
+      isConnected: true,
+    });
+
+    return {
+      success: true,
+      accessToken: data.access_token,
+      message: "Access token refreshed successfully",
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return { success: false, message: `Token refresh failed: ${message}` };
+  }
+}
+
+async function getValidAccessToken(): Promise<{ success: boolean; accessToken?: string; blogId?: string; message: string }> {
+  const settings = await storage.getSettings();
+  const { blogger } = settings;
+  const credentials = await storage.getBloggerCredentials();
+
+  const blogId = blogger.blogId || credentials.blog_id;
+  
+  if (!blogId) {
+    return { success: false, message: "Blog ID not configured. Please set it in Admin Settings." };
+  }
+
+  if (blogger.accessToken && blogger.tokenExpiry) {
+    const expiryDate = new Date(blogger.tokenExpiry);
+    const now = new Date();
+    const bufferMinutes = 5;
+    
+    if (now.getTime() < expiryDate.getTime() - bufferMinutes * 60 * 1000) {
+      return { success: true, accessToken: blogger.accessToken, blogId, message: "Token valid" };
+    }
+  }
+
+  if (credentials.client_id && credentials.client_secret && credentials.refresh_token) {
+    console.log("[Blogger] Access token expired or missing, attempting refresh...");
+    const refreshResult = await refreshAccessToken();
+    
+    if (refreshResult.success && refreshResult.accessToken) {
+      return { success: true, accessToken: refreshResult.accessToken, blogId, message: "Token refreshed" };
+    }
+    
+    return { success: false, message: refreshResult.message };
+  }
+
+  if (!blogger.accessToken) {
+    return { success: false, message: "No access token available. Please connect your Blogger account or configure Admin Settings." };
+  }
+
+  return { success: true, accessToken: blogger.accessToken, blogId, message: "Using existing token" };
+}
+
+interface BloggerPost {
+  kind: string;
+  id: string;
+  blog: { id: string };
+  url: string;
+  selfLink: string;
+  title: string;
+  content: string;
+  published: string;
+  updated: string;
+  labels?: string[];
+}
+
+interface BloggerBlog {
+  kind: string;
+  id: string;
+  name: string;
+  description: string;
+  url: string;
+}
+
+export async function validateBloggerConnection(
+  blogId: string,
+  accessToken: string
+): Promise<{ success: boolean; blogName?: string; blogUrl?: string; message: string }> {
+  try {
+    const response = await fetch(`${BLOGGER_API_BASE}/blogs/${blogId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      return {
+        success: false,
+        message: error.error?.message || `HTTP ${response.status}: ${response.statusText}`,
+      };
+    }
+
+    const blog: BloggerBlog = await response.json();
+    return {
+      success: true,
+      blogName: blog.name,
+      blogUrl: blog.url,
+      message: `Connected to "${blog.name}"`,
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return { success: false, message: `Connection failed: ${message}` };
+  }
+}
+
+export async function publishToBlogger(post: Post): Promise<{
+  success: boolean;
+  postId?: string;
+  postUrl?: string;
+  message: string;
+}> {
+  const tokenResult = await getValidAccessToken();
+  
+  if (!tokenResult.success || !tokenResult.accessToken || !tokenResult.blogId) {
+    return { success: false, message: tokenResult.message };
+  }
+
+  const { accessToken, blogId } = tokenResult;
+
+  try {
+    let content = post.content;
+    
+    if (post.imageUrl) {
+      content = `<div style="text-align: center; margin-bottom: 24px;">
+        <img src="${post.imageUrl}" alt="${post.title}" style="max-width: 100%; height: auto; border-radius: 8px;" />
+      </div>\n${content}`;
+    }
+
+    const postBody = {
+      kind: "blogger#post",
+      blog: { id: blogId },
+      title: post.title,
+      content: content,
+      labels: post.labels || [],
+    };
+
+    const response = await fetch(`${BLOGGER_API_BASE}/blogs/${blogId}/posts`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postBody),
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      
+      if (response.status === 401) {
+        return {
+          success: false,
+          message: "Access token expired and refresh failed. Please check your Admin Settings credentials.",
+        };
+      }
+      
+      return {
+        success: false,
+        message: error.error?.message || `Failed to publish: HTTP ${response.status}`,
+      };
+    }
+
+    const publishedPost: BloggerPost = await response.json();
+    
+    return {
+      success: true,
+      postId: publishedPost.id,
+      postUrl: publishedPost.url,
+      message: "Post published successfully!",
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return { success: false, message: `Publishing failed: ${message}` };
+  }
+}
+
+export async function publishToBloggerWithAccount(
+  post: Post,
+  account: BloggerAccount
+): Promise<{
+  success: boolean;
+  postId?: string;
+  postUrl?: string;
+  message: string;
+}> {
+  try {
+    let accessToken = account.accessToken;
+    
+    if (!accessToken || (account.tokenExpiry && new Date(account.tokenExpiry) < new Date())) {
+      const refreshResult = await refreshAccountToken(account);
+      if (!refreshResult.success || !refreshResult.accessToken) {
+        return { success: false, message: refreshResult.message };
+      }
+      accessToken = refreshResult.accessToken;
+    }
+
+    let content = post.content;
+    
+    if (post.imageUrl) {
+      content = `<div style="text-align: center; margin-bottom: 24px;">
+        <img src="${post.imageUrl}" alt="${post.title}" style="max-width: 100%; height: auto; border-radius: 8px;" />
+      </div>\n${content}`;
+    }
+
+    content = injectAds(content, account);
+
+    const postBody = {
+      kind: "blogger#post",
+      blog: { id: account.blogId },
+      title: post.title,
+      content: content,
+      labels: post.labels || [],
+    };
+
+    const response = await fetch(`${BLOGGER_API_BASE}/blogs/${account.blogId}/posts`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postBody),
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      return {
+        success: false,
+        message: error.error?.message || `Failed to publish: HTTP ${response.status}`,
+      };
+    }
+
+    const publishedPost: BloggerPost = await response.json();
+    
+    return {
+      success: true,
+      postId: publishedPost.id,
+      postUrl: publishedPost.url,
+      message: `Post published to ${account.name}!`,
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return { success: false, message: `Publishing failed: ${message}` };
+  }
+}
+
+async function refreshAccountToken(account: BloggerAccount): Promise<{ success: boolean; accessToken?: string; message: string }> {
+  try {
+    const params = new URLSearchParams({
+      client_id: account.clientId,
+      client_secret: account.clientSecret,
+      refresh_token: account.refreshToken,
+      grant_type: "refresh_token",
+    });
+
+    const response = await fetch(OAUTH_TOKEN_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      return {
+        success: false,
+        message: error.error_description || `Token refresh failed: HTTP ${response.status}`,
+      };
+    }
+
+    const data: TokenResponse = await response.json();
+    
+    await storage.updateBloggerAccount(account.id, {
+      accessToken: data.access_token,
+      tokenExpiry: new Date(Date.now() + data.expires_in * 1000).toISOString(),
+      isConnected: true,
+    });
+
+    return {
+      success: true,
+      accessToken: data.access_token,
+      message: "Token refreshed",
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return { success: false, message: `Token refresh failed: ${message}` };
+  }
+}
+
+export async function validateAndConnectAccount(
+  account: BloggerAccount
+): Promise<{ success: boolean; blogName?: string; blogUrl?: string; message: string }> {
+  try {
+    const params = new URLSearchParams({
+      client_id: account.clientId,
+      client_secret: account.clientSecret,
+      refresh_token: account.refreshToken,
+      grant_type: "refresh_token",
+    });
+
+    const tokenResponse = await fetch(OAUTH_TOKEN_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
+    });
+
+    if (!tokenResponse.ok) {
+      const error = await tokenResponse.json().catch(() => ({}));
+      await storage.updateBloggerAccount(account.id, { isConnected: false });
+      return {
+        success: false,
+        message: error.error_description || `Token refresh failed: HTTP ${tokenResponse.status}. Please check your client_id, client_secret, and refresh_token.`,
+      };
+    }
+
+    const tokenData: TokenResponse = await tokenResponse.json();
+    
+    const validation = await validateBloggerConnection(account.blogId, tokenData.access_token);
+    
+    if (!validation.success) {
+      await storage.updateBloggerAccount(account.id, { isConnected: false });
+      return {
+        success: false,
+        message: validation.message,
+      };
+    }
+
+    await storage.updateBloggerAccount(account.id, {
+      accessToken: tokenData.access_token,
+      tokenExpiry: new Date(Date.now() + tokenData.expires_in * 1000).toISOString(),
+      isConnected: true,
+      blogName: validation.blogName,
+      blogUrl: validation.blogUrl,
+    });
+
+    return {
+      success: true,
+      blogName: validation.blogName,
+      blogUrl: validation.blogUrl,
+      message: `Successfully connected to "${validation.blogName}"`,
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    await storage.updateBloggerAccount(account.id, { isConnected: false });
+    return { success: false, message: `Connection failed: ${message}` };
+  }
+}
+
+export async function validateAccountCredentials(
+  clientId: string,
+  clientSecret: string,
+  refreshToken: string,
+  blogId: string
+): Promise<{ success: boolean; accessToken?: string; blogName?: string; blogUrl?: string; tokenExpiry?: string; message: string }> {
+  try {
+    const params = new URLSearchParams({
+      client_id: clientId,
+      client_secret: clientSecret,
+      refresh_token: refreshToken,
+      grant_type: "refresh_token",
+    });
+
+    const tokenResponse = await fetch(OAUTH_TOKEN_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
+    });
+
+    if (!tokenResponse.ok) {
+      const error = await tokenResponse.json().catch(() => ({}));
+      return {
+        success: false,
+        message: error.error_description || `Token refresh failed: HTTP ${tokenResponse.status}. Please check your client_id, client_secret, and refresh_token.`,
+      };
+    }
+
+    const tokenData: TokenResponse = await tokenResponse.json();
+    
+    const validation = await validateBloggerConnection(blogId, tokenData.access_token);
+    
+    if (!validation.success) {
+      return {
+        success: false,
+        message: validation.message,
+      };
+    }
+
+    return {
+      success: true,
+      accessToken: tokenData.access_token,
+      blogName: validation.blogName,
+      blogUrl: validation.blogUrl,
+      tokenExpiry: new Date(Date.now() + tokenData.expires_in * 1000).toISOString(),
+      message: `Successfully connected to "${validation.blogName}"`,
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return { success: false, message: `Connection failed: ${message}` };
+  }
+}
+
+export async function getBloggerPosts(
+  maxResults = 10
+): Promise<{ success: boolean; posts?: any[]; message: string }> {
+  const settings = await storage.getSettings();
+  const { blogger } = settings;
+
+  if (!blogger.isConnected || !blogger.blogId || !blogger.accessToken) {
+    return { success: false, message: "Blogger is not connected", posts: [] };
+  }
+
+  try {
+    const response = await fetch(
+      `${BLOGGER_API_BASE}/blogs/${blogger.blogId}/posts?maxResults=${maxResults}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${blogger.accessToken}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      return { success: false, message: "Failed to fetch posts", posts: [] };
+    }
+
+    const data = await response.json();
+    return { success: true, posts: data.items || [], message: "Posts fetched" };
+  } catch (error) {
+    return { success: false, message: "Error fetching posts", posts: [] };
+  }
+}
