@@ -10,12 +10,13 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import Home from "@/pages/home";
 import Automation from "@/pages/automation";
 import Posts from "@/pages/posts";
-import Research from "@/pages/research";
 import Settings from "@/pages/settings";
 import TumblrBlogs from "@/pages/tumblr-blogs";
 import XIntegration from "@/pages/x-integration";
 import WhatsApp from "@/pages/whatsapp";
 import NotFound from "@/pages/not-found";
+import VideoPosts from "@/pages/video-posts";
+import PageConnections from "@/pages/page-connections";
 
 function Router() {
   return (
@@ -23,10 +24,11 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/automation" component={Automation} />
       <Route path="/posts" component={Posts} />
-      <Route path="/research" component={Research} />
       <Route path="/tumblr-blogs" component={TumblrBlogs} />
       <Route path="/x-integration" component={XIntegration} />
       <Route path="/whatsapp" component={WhatsApp} />
+      <Route path="/video-posts" component={VideoPosts} />
+      <Route path="/page-connections" component={PageConnections} />
       <Route path="/settings" component={Settings} />
       <Route component={NotFound} />
     </Switch>

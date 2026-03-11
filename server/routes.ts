@@ -24,7 +24,11 @@ import {
   updateApiKeyInSupabase,
   migrateApiKeysToSupabase,
   isSupabaseConfigured,
-  maskApiKey 
+  maskApiKey,
+  querySupabaseTable,
+  insertSupabaseRecord,
+  updateSupabaseRecord,
+  deleteSupabaseRecord 
 } from "./services/supabase";
 import type { Post, NicheId } from "@shared/schema";
 import { NICHES } from "@shared/schema";
@@ -1636,5 +1640,108 @@ export async function registerRoutes(
     }
   });
 
+
+
+  app.get("/api/video-posts", async (_req: Request, res: Response) => {
+    const result = await querySupabaseTable("video_posts", "*");
+    if (!result.success) return res.status(400).json({ error: result.error });
+    res.json(result.data ?? []);
+  });
+
+  app.post("/api/video-posts", async (req: Request, res: Response) => {
+    const { title, facebookPageId, facebookPageName, videoUrl, dailyTime } = req.body;
+    if (!title || !facebookPageId || !videoUrl || !dailyTime) {
+      return res.status(400).json({ error: "title, facebookPageId, videoUrl and dailyTime are required" });
+    }
+
+    const payload = {
+      title,
+      facebook_page_id: facebookPageId,
+      facebook_page_name: facebookPageName || null,
+      video_url: videoUrl,
+      daily_time: dailyTime,
+      is_active: true,
+      metadata: {},
+      updated_at: new Date().toISOString(),
+    };
+
+    const result = await insertSupabaseRecord("video_posts", payload);
+    if (!result.success) return res.status(400).json({ error: result.error });
+    res.json({ success: true, data: result.data });
+  });
+
+  app.patch("/api/video-posts/:id", async (req: Request, res: Response) => {
+    const payload: Record<string, unknown> = { updated_at: new Date().toISOString() };
+    if (req.body.title !== undefined) payload.title = req.body.title;
+    if (req.body.facebookPageId !== undefined) payload.facebook_page_id = req.body.facebookPageId;
+    if (req.body.facebookPageName !== undefined) payload.facebook_page_name = req.body.facebookPageName;
+    if (req.body.videoUrl !== undefined) payload.video_url = req.body.videoUrl;
+    if (req.body.dailyTime !== undefined) payload.daily_time = req.body.dailyTime;
+    if (req.body.isActive !== undefined) payload.is_active = req.body.isActive;
+
+    const result = await updateSupabaseRecord("video_posts", req.params.id, payload);
+    if (!result.success) return res.status(400).json({ error: result.error });
+    res.json({ success: true });
+  });
+
+  app.delete("/api/video-posts/:id", async (req: Request, res: Response) => {
+    const result = await deleteSupabaseRecord("video_posts", req.params.id);
+    if (!result.success) return res.status(400).json({ error: result.error });
+    res.json({ success: true });
+  });
+
+  app.get("/api/page-connections", async (_req: Request, res: Response) => {
+    const result = await querySupabaseTable("page_connections", "*");
+    if (!result.success) return res.status(400).json({ error: result.error });
+    res.json(result.data ?? []);
+  });
+
+  app.post("/api/page-connections", async (req: Request, res: Response) => {
+    const { bloggerAccountId, bloggerAccountName, facebookPageId, facebookPageName, autoPostEnabled } = req.body;
+    if (!bloggerAccountId || !bloggerAccountName || !facebookPageId || !facebookPageName) {
+      return res.status(400).json({ error: "All mapping fields are required" });
+    }
+
+    const result = await insertSupabaseRecord("page_connections", {
+      blogger_account_id: bloggerAccountId,
+      blogger_account_name: bloggerAccountName,
+      facebook_page_id: facebookPageId,
+      facebook_page_name: facebookPageName,
+      auto_post_enabled: !!autoPostEnabled,
+      updated_at: new Date().toISOString(),
+    });
+
+    if (!result.success) return res.status(400).json({ error: result.error });
+    res.json({ success: true, data: result.data });
+  });
+
+  app.patch("/api/page-connections/:id", async (req: Request, res: Response) => {
+    const payload: Record<string, unknown> = { updated_at: new Date().toISOString() };
+    if (req.body.autoPostEnabled !== undefined) payload.auto_post_enabled = !!req.body.autoPostEnabled;
+    const result = await updateSupabaseRecord("page_connections", req.params.id, payload);
+    if (!result.success) return res.status(400).json({ error: result.error });
+    res.json({ success: true });
+  });
+
+  app.delete("/api/page-connections/:id", async (req: Request, res: Response) => {
+    const result = await deleteSupabaseRecord("page_connections", req.params.id);
+    if (!result.success) return res.status(400).json({ error: result.error });
+    res.json({ success: true });
+  });
+
+  app.post("/api/facebook/pages", async (req: Request, res: Response) => {
+    const { userAccessToken } = req.body;
+    if (!userAccessToken) {
+      return res.status(400).json({ error: "userAccessToken is required" });
+    }
+
+    const response = await fetch(`https://graph.facebook.com/v20.0/me/accounts?access_token=${encodeURIComponent(userAccessToken)}`);
+    const data = await response.json();
+    if (!response.ok) {
+      return res.status(400).json({ error: data?.error?.message || "Failed to fetch Facebook pages" });
+    }
+
+    res.json({ success: true, pages: data.data || [] });
+  });
   return httpServer;
 }

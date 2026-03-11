@@ -189,7 +189,72 @@ CREATE INDEX IF NOT EXISTS idx_api_keys_key_type ON api_keys(key_type);
 ALTER TABLE api_keys ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Enable all access for service role" ON api_keys;
-CREATE POLICY "Enable all access for service role" ON api_keys FOR ALL USING (true) WITH CHECK (true);`;
+CREATE POLICY "Enable all access for service role" ON api_keys FOR ALL USING (true) WITH CHECK (true);
+
+CREATE TABLE IF NOT EXISTS video_posts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title TEXT NOT NULL,
+  facebook_page_id TEXT NOT NULL,
+  facebook_page_name TEXT,
+  video_url TEXT NOT NULL,
+  daily_time TEXT NOT NULL,
+  is_active BOOLEAN DEFAULT true,
+  metadata JSONB DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS page_connections (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  blogger_account_id TEXT NOT NULL,
+  blogger_account_name TEXT NOT NULL,
+  facebook_page_id TEXT NOT NULL,
+  facebook_page_name TEXT NOT NULL,
+  auto_post_enabled BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE video_posts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE page_connections ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Enable all access for service role" ON video_posts;
+CREATE POLICY "Enable all access for service role" ON video_posts FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Enable all access for service role" ON page_connections;
+CREATE POLICY "Enable all access for service role" ON page_connections FOR ALL USING (true) WITH CHECK (true);`;
+}
+
+export async function querySupabaseTable(table: string, query: string = "*"): Promise<{ success: boolean; data?: unknown; error?: string }> {
+  const result = await makeSupabaseRequest(`${table}?select=${query}`);
+  if (result.error) {
+    return { success: false, error: result.error };
+  }
+  return { success: true, data: result.data };
+}
+
+export async function insertSupabaseRecord(table: string, payload: Record<string, unknown>): Promise<{ success: boolean; data?: unknown; error?: string }> {
+  const result = await makeSupabaseRequest(table, "POST", payload);
+  if (result.error) {
+    return { success: false, error: result.error };
+  }
+  return { success: true, data: result.data };
+}
+
+export async function updateSupabaseRecord(table: string, id: string, payload: Record<string, unknown>): Promise<{ success: boolean; error?: string }> {
+  const result = await makeSupabaseRequest(`${table}?id=eq.${id}`, "PATCH", payload);
+  if (result.error) {
+    return { success: false, error: result.error };
+  }
+  return { success: true };
+}
+
+export async function deleteSupabaseRecord(table: string, id: string): Promise<{ success: boolean; error?: string }> {
+  const result = await makeSupabaseRequest(`${table}?id=eq.${id}`, "DELETE");
+  if (result.error) {
+    return { success: false, error: result.error };
+  }
+  return { success: true };
 }
 
 export async function checkTablesExist(): Promise<{ exists: boolean; error?: string }> {
