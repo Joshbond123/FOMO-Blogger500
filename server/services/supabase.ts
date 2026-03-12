@@ -42,8 +42,31 @@ const defaultSupabaseConfig: SupabaseConfig = {
   isConfigured: false,
 };
 
+function getSupabaseConfigFromEnvironment(): Partial<SupabaseConfig> {
+  const projectUrl = process.env.SUPABASE_URL?.trim() || "";
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() || "";
+
+  if (!projectUrl || !serviceRoleKey) {
+    return {};
+  }
+
+  return {
+    projectUrl,
+    serviceRoleKey,
+    isConfigured: true,
+  };
+}
+
 export async function getSupabaseConfig(): Promise<SupabaseConfig> {
-  const config = readJsonFile<SupabaseConfig>(SUPABASE_CONFIG_FILE, defaultSupabaseConfig);
+  const configFromFile = readJsonFile<SupabaseConfig>(SUPABASE_CONFIG_FILE, defaultSupabaseConfig);
+  const configFromEnvironment = getSupabaseConfigFromEnvironment();
+
+  const config = {
+    ...configFromFile,
+    ...configFromEnvironment,
+  };
+
+  config.isConfigured = !!(config.projectUrl && config.serviceRoleKey);
   return config;
 }
 
@@ -71,6 +94,10 @@ export async function saveSupabaseConfig(config: Partial<SupabaseConfig>): Promi
 export async function getDecryptedServiceRoleKey(): Promise<string | null> {
   const config = await getSupabaseConfig();
   if (!config.serviceRoleKey) return null;
+
+  if (process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()) {
+    return process.env.SUPABASE_SERVICE_ROLE_KEY.trim();
+  }
   
   try {
     return decrypt(config.serviceRoleKey);
@@ -81,6 +108,10 @@ export async function getDecryptedServiceRoleKey(): Promise<string | null> {
 }
 
 export async function isSupabaseConfigured(): Promise<boolean> {
+  if (process.env.SUPABASE_URL?.trim() && process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()) {
+    return true;
+  }
+
   const config = await getSupabaseConfig();
   return config.isConfigured;
 }
@@ -184,12 +215,72 @@ CREATE TABLE IF NOT EXISTS api_keys (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS storage_documents (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  doc_type TEXT NOT NULL,
+  doc_key TEXT NOT NULL,
+  payload JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(doc_type, doc_key)
+);
+
+CREATE TABLE IF NOT EXISTS settings (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  setting_key TEXT NOT NULL UNIQUE,
+  setting_value JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS schedules (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  channel TEXT NOT NULL,
+  target_id TEXT,
+  schedule_time TIME NOT NULL,
+  timezone TEXT NOT NULL DEFAULT 'UTC',
+  is_enabled BOOLEAN NOT NULL DEFAULT true,
+  metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS topics (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  niche TEXT NOT NULL,
+  topic TEXT NOT NULL,
+  normalized_topic TEXT NOT NULL,
+  source TEXT,
+  used_for TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(normalized_topic)
+);
+
 CREATE INDEX IF NOT EXISTS idx_api_keys_key_type ON api_keys(key_type);
+CREATE INDEX IF NOT EXISTS idx_storage_documents_type_key ON storage_documents(doc_type, doc_key);
+CREATE INDEX IF NOT EXISTS idx_schedules_channel_enabled ON schedules(channel, is_enabled);
+CREATE INDEX IF NOT EXISTS idx_topics_niche_created ON topics(niche, created_at DESC);
 
 ALTER TABLE api_keys ENABLE ROW LEVEL SECURITY;
+ALTER TABLE storage_documents ENABLE ROW LEVEL SECURITY;
+ALTER TABLE settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE schedules ENABLE ROW LEVEL SECURITY;
+ALTER TABLE topics ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Enable all access for service role" ON api_keys;
-CREATE POLICY "Enable all access for service role" ON api_keys FOR ALL USING (true) WITH CHECK (true);`;
+CREATE POLICY "Enable all access for service role" ON api_keys FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Enable all access for service role" ON storage_documents;
+CREATE POLICY "Enable all access for service role" ON storage_documents FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Enable all access for service role" ON settings;
+CREATE POLICY "Enable all access for service role" ON settings FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Enable all access for service role" ON schedules;
+CREATE POLICY "Enable all access for service role" ON schedules FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Enable all access for service role" ON topics;
+CREATE POLICY "Enable all access for service role" ON topics FOR ALL USING (true) WITH CHECK (true);`;
 }
 
 export async function checkTablesExist(): Promise<{ exists: boolean; error?: string }> {
@@ -199,19 +290,23 @@ export async function checkTablesExist(): Promise<{ exists: boolean; error?: str
   }
 
   try {
-    const checkResponse = await fetch(`${client.url}/rest/v1/api_keys?select=id&limit=1`, {
-      method: "GET",
-      headers: {
-        "apikey": client.key,
-        "Authorization": `Bearer ${client.key}`,
-      },
-    });
+    const tableChecks = ["api_keys", "storage_documents", "settings", "schedules", "topics"];
 
-    if (checkResponse.ok) {
-      return { exists: true };
+    for (const tableName of tableChecks) {
+      const checkResponse = await fetch(`${client.url}/rest/v1/${tableName}?select=*&limit=1`, {
+        method: "GET",
+        headers: {
+          "apikey": client.key,
+          "Authorization": `Bearer ${client.key}`,
+        },
+      });
+
+      if (!checkResponse.ok) {
+        return { exists: false };
+      }
     }
 
-    return { exists: false };
+    return { exists: true };
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     return { exists: false, error: message };
