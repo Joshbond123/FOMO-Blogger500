@@ -20,16 +20,22 @@ import {
   getSetupSQL,
   storeApiKeyInSupabase,
   getApiKeysFromSupabase,
+  getDecryptedApiKey,
   deleteApiKeyFromSupabase,
   updateApiKeyInSupabase,
   migrateApiKeysToSupabase,
   isSupabaseConfigured,
-  maskApiKey 
+  maskApiKey,
+  supabaseTableSelect,
+  supabaseTableInsert,
+  supabaseTableUpdate,
+  supabaseTableDelete 
 } from "./services/supabase";
 import type { Post, NicheId } from "@shared/schema";
 import { NICHES } from "@shared/schema";
 import path from "path";
 import fs from "fs";
+import { createHash } from "crypto";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -1633,6 +1639,131 @@ export async function registerRoutes(
       res.json({ isConfigured: configured });
     } catch (error) {
       res.status(500).json({ error: "Failed to get status" });
+    }
+  });
+
+
+
+  // Video schedules (Supabase-backed)
+  app.get("/api/video-schedules", async (_req: Request, res: Response) => {
+    const result = await supabaseTableSelect("schedules?channel=eq.video&select=*&order=created_at.desc");
+    if (!result.success) return res.status(400).json({ error: result.error });
+    res.json({ success: true, data: result.data });
+  });
+
+  app.post("/api/video-schedules", async (req: Request, res: Response) => {
+    const { pageId, pageName, scheduleTime, timezone } = req.body;
+    if (!pageId || !pageName || !scheduleTime) {
+      return res.status(400).json({ error: "pageId, pageName and scheduleTime are required" });
+    }
+
+    const result = await supabaseTableInsert("schedules", {
+      channel: "video",
+      target_id: pageId,
+      schedule_time: scheduleTime,
+      timezone: timezone || "UTC",
+      metadata: { pageName },
+    });
+
+    if (!result.success) return res.status(400).json({ error: result.error });
+    res.json({ success: true, data: result.data });
+  });
+
+  app.patch("/api/video-schedules/:id", async (req: Request, res: Response) => {
+    const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
+    if (req.body.scheduleTime) updates.schedule_time = req.body.scheduleTime;
+    if (req.body.timezone) updates.timezone = req.body.timezone;
+    if (req.body.pageName) updates.metadata = { pageName: req.body.pageName };
+    if (typeof req.body.isEnabled === "boolean") updates.is_enabled = req.body.isEnabled;
+
+    const result = await supabaseTableUpdate(`schedules?id=eq.${req.params.id}`, updates);
+    if (!result.success) return res.status(400).json({ error: result.error });
+    res.json({ success: true, data: result.data });
+  });
+
+  app.delete("/api/video-schedules/:id", async (req: Request, res: Response) => {
+    const result = await supabaseTableDelete(`schedules?id=eq.${req.params.id}`);
+    if (!result.success) return res.status(400).json({ error: result.error });
+    res.json({ success: true });
+  });
+
+  // Facebook tokens and pages (Supabase-backed using api_keys)
+  app.get("/api/facebook/tokens", async (_req: Request, res: Response) => {
+    const tokens = await getApiKeysFromSupabase("facebook");
+    if (!tokens.success) return res.status(400).json({ error: tokens.error });
+    res.json({ success: true, data: tokens.keys || [] });
+  });
+
+  app.post("/api/facebook/tokens", async (req: Request, res: Response) => {
+    const { token, name, tokenType } = req.body;
+    if (!token || !tokenType) {
+      return res.status(400).json({ error: "token and tokenType are required" });
+    }
+
+    const saved = await storeApiKeyInSupabase("facebook", token, name || tokenType, { tokenType: String(tokenType) });
+    if (!saved.success) return res.status(400).json({ error: saved.error });
+
+    res.json({ success: true, id: saved.id });
+  });
+
+  app.delete("/api/facebook/tokens/:id", async (req: Request, res: Response) => {
+    const deleted = await deleteApiKeyFromSupabase(req.params.id);
+    if (!deleted.success) return res.status(400).json({ error: deleted.error });
+    res.json({ success: true });
+  });
+
+  app.get("/api/facebook/pages/:tokenId", async (req: Request, res: Response) => {
+    const tokenResult = await getDecryptedApiKey(req.params.tokenId);
+    if (!tokenResult.success || !tokenResult.key) {
+      return res.status(404).json({ error: tokenResult.error || "Token not found" });
+    }
+
+    try {
+      const response = await fetch(`https://graph.facebook.com/v20.0/me/accounts?access_token=${encodeURIComponent(tokenResult.key)}`);
+      const payload = await response.json();
+      if (!response.ok) {
+        return res.status(400).json({ error: payload?.error?.message || "Failed to fetch pages" });
+      }
+      res.json({ success: true, data: payload.data || [] });
+    } catch (error) {
+      res.status(500).json({ error: error instanceof Error ? error.message : "Failed to fetch pages" });
+    }
+  });
+
+  // Free trending topic discovery + dedupe storage in Supabase
+  app.get("/api/topics/discover", async (req: Request, res: Response) => {
+    const niche = String(req.query.niche || "general").trim();
+    const sourceUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(niche + ' trending')}&hl=en-US&gl=US&ceid=US:en`;
+
+    try {
+      const rssRes = await fetch(sourceUrl);
+      const xml = await rssRes.text();
+      const titleRegex = /<title><!\[CDATA\[(.*?)\]\]><\/title>/g;
+      const titles: string[] = [];
+      let titleMatch: RegExpExecArray | null = null;
+      while ((titleMatch = titleRegex.exec(xml)) !== null) {
+        const title = titleMatch[1];
+        if (!title.includes("Google News")) {
+          titles.push(title);
+        }
+      }
+      const unique = Array.from(new Set(titles)).slice(0, 50);
+
+      const stored: string[] = [];
+      for (const topic of unique) {
+        const normalized = topic.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
+        const hash = createHash("sha256").update(`${niche}:${normalized}`).digest("hex");
+        const existing = await supabaseTableSelect(`topics?normalized_topic=eq.${encodeURIComponent(hash)}&select=id&limit=1`);
+        const exists = existing.success && Array.isArray(existing.data) && existing.data.length > 0;
+        if (!exists) {
+          await supabaseTableInsert("topics", { niche, topic, normalized_topic: hash, source: "google-news-rss", used_for: "discovery" });
+          stored.push(topic);
+        }
+      }
+
+      res.json({ success: true, niche, topics: unique, storedNew: stored.length });
+    } catch (error) {
+      res.status(500).json({ error: error instanceof Error ? error.message : "Topic discovery failed" });
     }
   });
 

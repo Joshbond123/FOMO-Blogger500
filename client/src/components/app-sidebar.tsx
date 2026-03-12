@@ -18,9 +18,6 @@ import {
   Clock, 
   FileText,
   Database,
-  Search,
-  Share2,
-  MessageCircle
 } from "lucide-react";
 import { SiTumblr, SiX, SiWhatsapp } from "react-icons/si";
 
@@ -41,9 +38,9 @@ const menuItems = [
     icon: FileText,
   },
   {
-    title: "Research",
-    url: "/research",
-    icon: Search,
+    title: "Video Posts",
+    url: "/video-posts",
+    icon: Clock,
   },
   {
     title: "Tumblr Blogs",
@@ -109,7 +106,7 @@ export function AppSidebar() {
       <SidebarFooter className="p-4">
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <Database className="h-3 w-3" />
-          <span>File-based storage</span>
+          <span>Supabase-backed storage</span>
         </div>
       </SidebarFooter>
     </Sidebar>

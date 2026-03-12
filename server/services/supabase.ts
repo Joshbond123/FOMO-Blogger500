@@ -545,6 +545,52 @@ export async function updateApiKeyInSupabase(
   }
 }
 
+
+export async function supabaseTableSelect(endpoint: string): Promise<{ success: boolean; data?: unknown; error?: string }> {
+  const result = await makeSupabaseRequest(endpoint, "GET");
+  if (result.error) return { success: false, error: result.error };
+  return { success: true, data: result.data };
+}
+
+export async function supabaseTableInsert(table: string, payload: unknown): Promise<{ success: boolean; data?: unknown; error?: string }> {
+  const result = await makeSupabaseRequest(table, "POST", payload);
+  if (result.error) return { success: false, error: result.error };
+  return { success: true, data: result.data };
+}
+
+export async function supabaseTableUpdate(endpoint: string, payload: unknown): Promise<{ success: boolean; data?: unknown; error?: string }> {
+  const client = await getSupabaseClient();
+  if (!client) return { success: false, error: "Supabase not configured" };
+
+  try {
+    const response = await fetch(`${client.url}/rest/v1/${endpoint}`, {
+      method: "PATCH",
+      headers: {
+        "apikey": client.key,
+        "Authorization": `Bearer ${client.key}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=representation",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      return { success: false, error: await response.text() };
+    }
+
+    const data = await response.json();
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
+  }
+}
+
+export async function supabaseTableDelete(endpoint: string): Promise<{ success: boolean; error?: string }> {
+  const result = await makeSupabaseRequest(endpoint, "DELETE");
+  if (result.error) return { success: false, error: result.error };
+  return { success: true };
+}
+
 export async function migrateApiKeysToSupabase(existingKeys: {
   cerebras?: Array<{ id: string; key: string; name?: string }>;
   gemini?: Array<{ id: string; key: string; name?: string }>;

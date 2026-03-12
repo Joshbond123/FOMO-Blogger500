@@ -10,11 +10,11 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import Home from "@/pages/home";
 import Automation from "@/pages/automation";
 import Posts from "@/pages/posts";
-import Research from "@/pages/research";
 import Settings from "@/pages/settings";
 import TumblrBlogs from "@/pages/tumblr-blogs";
 import XIntegration from "@/pages/x-integration";
 import WhatsApp from "@/pages/whatsapp";
+import VideoPosts from "@/pages/video-posts";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -23,7 +23,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/automation" component={Automation} />
       <Route path="/posts" component={Posts} />
-      <Route path="/research" component={Research} />
+      <Route path="/video-posts" component={VideoPosts} />
       <Route path="/tumblr-blogs" component={TumblrBlogs} />
       <Route path="/x-integration" component={XIntegration} />
       <Route path="/whatsapp" component={WhatsApp} />
